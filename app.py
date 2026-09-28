@@ -1,5 +1,5 @@
 import os
-from InquirerPy import inquirer
+# from InquirerPy import inquirer
 
 # list
 tools = [
@@ -94,33 +94,84 @@ def list_tools():
 
 def toggle_state_tool():
     clear_terminal()
+
     tools_name = []
+
     if not tools:
-        cyber_print("[INFO] Nenhuma ferramenta registrada no banco local.", YELLOW)
+        cyber_print(
+            "[INFO] Nenhuma ferramenta registrada no banco local.",
+            YELLOW
+        )
         press_by_return()
         return
+
     cyber_print("ATIVAR/DESATIVAR FERRAMENTAS", MAGENTA)
+
     active_tools = [tool for tool in tools if tool["active"]]
     inactive_tools = [tool for tool in tools if not tool["active"]]
+
     cyber_print("FERRAMENTAS ATIVAS:", CYAN)
+
     if not active_tools:
-        cyber_print("[INFO] Nenhuma ferramenta ativa encontrada.", YELLOW)
+        cyber_print(
+            "[INFO] Nenhuma ferramenta ativa encontrada.",
+            YELLOW
+        )
     else:
         for active_tool in active_tools:
-            cyber_print(f"  - {active_tool["name"]}", GREEN)
-            tools_name.append(active_tool['name'])
+            cyber_print(
+                f"  - {active_tool['name']}",
+                GREEN
+            )
+            tools_name.append(active_tool["name"])
+
     cyber_print("FERRAMENTAS INATIVAS:", CYAN)
+
     if not inactive_tools:
-        cyber_print("[INFO] Nenhuma ferramenta inativa encontrada.", YELLOW)
+        cyber_print(
+            "[INFO] Nenhuma ferramenta inativa encontrada.",
+            YELLOW
+        )
     else:
         for inactive_tool in inactive_tools:
-            cyber_print(f"  - {inactive_tool["name"]}", RED)
-            tools_name.append(inactive_tool['name'])
+            cyber_print(
+                f"  - {inactive_tool['name']}",
+                RED
+            )
+            tools_name.append(inactive_tool["name"])
+
     if tools_name:
-        escolha = inquirer.select(
-            message="Escolha uma ferramenta:",
-            choices=list(tools_name.keys())
+        cyber_print(
+            "QUAL FERRAMENTA DESEJA ATIVAR/DESATIVAR?",
+            MAGENTA
         )
+
+        for index, name in enumerate(tools_name, start=1):
+            cyber_print(f"  [{index}] {name}", CYAN)
+
+        select = input("Selecione: ")
+
+        if select.isdigit():
+            select = int(select) - 1
+
+            if 0 <= select < len(tools_name):
+                selected_name = tools_name[select]
+
+                for tool in tools:
+                    if tool["name"] == selected_name:
+                        tool["active"] = not tool["active"]
+                        break
+            else:
+                cyber_print(
+                    "[ERRO] Opção inválida.",
+                    RED
+                )
+        else:
+            cyber_print(
+                "[ERRO] Digite um número.",
+                RED
+            )
+
     press_by_return()
 
 
