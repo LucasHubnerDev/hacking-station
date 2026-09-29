@@ -1,4 +1,5 @@
 import os
+
 # from InquirerPy import inquirer
 
 # list
@@ -87,7 +88,8 @@ def list_tools():
     cyber_print("NAME | CATEGORY | ACTIVE", CYAN)
     for tool in tools:
         cyber_print(
-            f"  - {tool['name']} | {tool['category']} | {tool['active']}", GREEN
+            f"  - {tool['name'].ljust(20)} | {tool['category'].ljust(20)} | {tool['active']}",
+            GREEN,
         )
     press_by_return()
 
@@ -98,10 +100,7 @@ def toggle_state_tool():
     tools_name = []
 
     if not tools:
-        cyber_print(
-            "[INFO] Nenhuma ferramenta registrada no banco local.",
-            YELLOW
-        )
+        cyber_print("[INFO] Nenhuma ferramenta registrada no banco local.", YELLOW)
         press_by_return()
         return
 
@@ -113,38 +112,23 @@ def toggle_state_tool():
     cyber_print("FERRAMENTAS ATIVAS:", CYAN)
 
     if not active_tools:
-        cyber_print(
-            "[INFO] Nenhuma ferramenta ativa encontrada.",
-            YELLOW
-        )
+        cyber_print("[INFO] Nenhuma ferramenta ativa encontrada.", YELLOW)
     else:
         for active_tool in active_tools:
-            cyber_print(
-                f"  - {active_tool['name']}",
-                GREEN
-            )
+            cyber_print(f"  - {active_tool['name']}", GREEN)
             tools_name.append(active_tool["name"])
 
     cyber_print("FERRAMENTAS INATIVAS:", CYAN)
 
     if not inactive_tools:
-        cyber_print(
-            "[INFO] Nenhuma ferramenta inativa encontrada.",
-            YELLOW
-        )
+        cyber_print("[INFO] Nenhuma ferramenta inativa encontrada.", YELLOW)
     else:
         for inactive_tool in inactive_tools:
-            cyber_print(
-                f"  - {inactive_tool['name']}",
-                RED
-            )
+            cyber_print(f"  - {inactive_tool['name']}", RED)
             tools_name.append(inactive_tool["name"])
 
     if tools_name:
-        cyber_print(
-            "QUAL FERRAMENTA DESEJA ATIVAR/DESATIVAR?",
-            MAGENTA
-        )
+        cyber_print("QUAL FERRAMENTA DESEJA ATIVAR/DESATIVAR?", MAGENTA)
 
         for index, name in enumerate(tools_name, start=1):
             cyber_print(f"  [{index}] {name}", CYAN)
@@ -162,15 +146,9 @@ def toggle_state_tool():
                         tool["active"] = not tool["active"]
                         break
             else:
-                cyber_print(
-                    "[ERRO] Opção inválida.",
-                    RED
-                )
+                cyber_print("[ERRO] Opção inválida.", RED)
         else:
-            cyber_print(
-                "[ERRO] Digite um número.",
-                RED
-            )
+            cyber_print("[ERRO] Digite um número.", RED)
 
     press_by_return()
 
